@@ -155,7 +155,7 @@ configure(allprojects) { project ->
 		dependsOn compileJava
 		dependsOn copyJavaApiSignature
 
-		inputs.dir sourceSets.main.output.classesDir
+		inputs.dir sourceSets.main.output.classesDirs
 		inputs.dir copyJavaApiSignature.to
 
 		doLast {
@@ -168,7 +168,7 @@ configure(allprojects) { project ->
 			ant.animalSniffer(
 					signature: "$buildDir/javaApiSignature/javaApi.signature",
 					classpath: sourceSets.main.compileClasspath.asPath) {
-				path(path: sourceSets.main.output.classesDir)
+				path(path: sourceSets.main.output.classesDirs)
 				annotation(className: "org.springframework.lang.UsesJava7")
 				annotation(className: "org.springframework.lang.UsesJava8")
 				annotation(className: "org.springframework.lang.UsesSunHttpServer")
@@ -1127,21 +1127,21 @@ project("spring-framework-bom") {
 	}
 }
 
-apply plugin: 'sonar-runner'
-
-sonarRunner {
-	sonarProperties {
-		property "sonar.projectName", "Spring Framework"
-		property "sonar.profile", "Spring Framework"
-		property "sonar.jacoco.reportPath", "${buildDir.name}/jacoco.exec"
-		property "sonar.links.homepage", linkHomepage
-		property "sonar.links.ci", linkCi
-		property "sonar.links.issue", linkIssue
-		property "sonar.links.scm", linkScmUrl
-		property "sonar.links.scm_dev", linkScmDevConnection
-		property "sonar.java.coveragePlugin", "jacoco"
-	}
-}
+//apply plugin: 'sonar-runner'
+//
+//sonarRunner {
+//	sonarProperties {
+//		property "sonar.projectName", "Spring Framework"
+//		property "sonar.profile", "Spring Framework"
+//		property "sonar.jacoco.reportPath", "${buildDir.name}/jacoco.exec"
+//		property "sonar.links.homepage", linkHomepage
+//		property "sonar.links.ci", linkCi
+//		property "sonar.links.issue", linkIssue
+//		property "sonar.links.scm", linkScmUrl
+//		property "sonar.links.scm_dev", linkScmDevConnection
+//		property "sonar.java.coveragePlugin", "jacoco"
+//	}
+//}
 
 configure(rootProject) {
 	description = "Spring Framework"
@@ -1365,38 +1365,38 @@ configure(rootProject) {
 		archives distZip
 	}
 
-	task wrapper(type: Wrapper) {
-		description = "Generates gradlew[.bat] scripts"
-		gradleVersion = "2.5"
-
-		doLast() {
-			def gradleOpts = "-XX:MaxMetaspaceSize=1024m -Xmx1024m"
-			def gradleBatOpts = "$gradleOpts -XX:MaxHeapSize=256m"
-			File wrapperFile = file("gradlew")
-			wrapperFile.text = wrapperFile.text.replace("DEFAULT_JVM_OPTS=",
-				"GRADLE_OPTS=\"$gradleOpts \$GRADLE_OPTS\"\nDEFAULT_JVM_OPTS=")
-			File wrapperBatFile = file("gradlew.bat")
-			wrapperBatFile.text = wrapperBatFile.text.replace("set DEFAULT_JVM_OPTS=",
-				"set GRADLE_OPTS=$gradleBatOpts %GRADLE_OPTS%\nset DEFAULT_JVM_OPTS=")
-		}
-	}
+//	task wrapper(type: Wrapper) {
+//		description = "Generates gradlew[.bat] scripts"
+//		gradleVersion = "2.5"
+//
+//		doLast() {
+//			def gradleOpts = "-XX:MaxMetaspaceSize=1024m -Xmx1024m"
+//			def gradleBatOpts = "$gradleOpts -XX:MaxHeapSize=256m"
+//			File wrapperFile = file("gradlew")
+//			wrapperFile.text = wrapperFile.text.replace("DEFAULT_JVM_OPTS=",
+//				"GRADLE_OPTS=\"$gradleOpts \$GRADLE_OPTS\"\nDEFAULT_JVM_OPTS=")
+//			File wrapperBatFile = file("gradlew.bat")
+//			wrapperBatFile.text = wrapperBatFile.text.replace("set DEFAULT_JVM_OPTS=",
+//				"set GRADLE_OPTS=$gradleBatOpts %GRADLE_OPTS%\nset DEFAULT_JVM_OPTS=")
+//		}
+//	}
 
 }
 
-configure([project(':spring-build-src'), project(':spring-framework-bom')]) {
-	sonarRunner {
-		skipProject = true
-	}
-}
-
-configure(project(':spring-core')) {
-	sonarRunner {
-		sonarProperties {
-			property "sonar.exclusions",
-					"src/main/java/org/springframework/cglib/**/*,src/main/java/org/springframework/asm/**/*"
-		}
-	}
-}
+//configure([project(':spring-build-src'), project(':spring-framework-bom')]) {
+//	sonarRunner {
+//		skipProject = true
+//	}
+//}
+//
+//configure(project(':spring-core')) {
+//	sonarRunner {
+//		sonarProperties {
+//			property "sonar.exclusions",
+//					"src/main/java/org/springframework/cglib/**/*,src/main/java/org/springframework/asm/**/*"
+//		}
+//	}
+//}
 
 /*
  * Support publication of artifacts versioned by topic branch.

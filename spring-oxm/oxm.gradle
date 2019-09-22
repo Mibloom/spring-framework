@@ -122,7 +122,7 @@ if (jibxEnabled) {
 						classpath: configurations.jibx.asPath)
 
 				jibx(verbose: true, load: true, binding: bindingXml) {
-					classpathset(dir: sourceSets.test.output.classesDir) {
+					classpathset(dir: sourceSets.test.output.classesDirs) {
 						include(name: "**/jibx/**/*")
 					}
 				}
